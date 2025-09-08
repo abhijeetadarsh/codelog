@@ -1,0 +1,53 @@
+name: Build and Deploy Pelican Blog
+
+# 1. TRIGGER: This workflow runs on any push to the 'main' branch
+on:
+  push:
+    branches:
+      - main  # Or 'master' if that's your default branch
+
+# 2. PERMISSIONS: Grant the job permissions to write to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 3. CHECKOUT: Get the source code from your repository
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      # 4. SETUP PYTHON: Install Python on the virtual machine
+      - name: Set up Python 🐍
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Choose your Python version
+          cache: 'pip'
+
+      # 5. INSTALL DEPENDENCIES: Install Pelican and other libraries
+      - name: Install dependencies 📦
+        run: pip install -r requirements.txt
+
+      # 6. CONVERT NOTEBOOKS: Run your custom conversion script
+      - name: Convert notebooks to Markdown 📜
+        run: python convert_notebooks.py
+
+      # 7. BUILD SITE: Run Pelican to generate the static HTML site
+      #    We use publishconf.py to ensure the correct SITEURL is used.
+      - name: Build Pelican site 🏗️
+        run: pelican content -s publishconf.py
+
+      # 8. UPLOAD ARTIFACT: Upload the generated 'output' folder
+      #    This prepares it for deployment to GitHub Pages
+      - name: Upload artifact ⬆️
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./output
+
+      # 9. DEPLOY: Deploy the uploaded artifact to GitHub Pages
+      - name: Deploy to GitHub Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v4
