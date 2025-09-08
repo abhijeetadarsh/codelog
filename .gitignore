@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+*.egg-info/
+
+# Pelican
+output/
+cache/
+
+# Our generated markdown files in the root content folder
+# This prevents committing derived files. The Action will generate them.
+content/*.md
