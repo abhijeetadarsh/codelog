@@ -16,11 +16,6 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-DATE_FORMATS = {
-    'en': '%a, %d %b %Y',
-    'jp': '%Y-%m-%d(%a)',
-}
-
 LOCALE = ('en_US.utf8',)
 
 # Blogroll
