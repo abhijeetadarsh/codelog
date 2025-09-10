@@ -16,23 +16,26 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-LOCALE = ('en_US.utf8',)
+# THEME = 'themes/Flex'
+DEFAULT_PAGINATION = 3
 
-# Blogroll
+# --- Footer Links ---
 LINKS = (
-    ("Pelican", "https://getpelican.com/"),
-    ("Python.org", "https://www.python.org/"),
-    ("Jinja2", "https://palletsprojects.com/p/jinja/"),
-    ("You can modify those links in your config file", "#"),
+    ('About', '/pages/about.html'),
+    ('Projects', '/pages/projects.html'),
+    ('Contact', '/pages/contact.html'),
+    ('Archives', '/archives.html'),
 )
 
-# Social widget
+# --- Social Media Links ---
 SOCIAL = (
-    ("You can add links in your config file", "#"),
-    ("Another social link", "#"),
+    ('GitHub', 'https://github.com/abhijeetadarsh'),
+    ('LinkedIn', 'https://linkedin.com/in/abhijeet-adarsh'),
+    ('X', 'https://x.com/adarsh_abhijeet'),
 )
 
-DEFAULT_PAGINATION = 10
+# --- Bottom Bar Customization (Theme Dependent) ---
 
-# Uncomment following line if you want document-relative URLs when developing
-# RELATIVE_URLS = True
+# Some themes might allow you to add custom text here.
+# For example, you might have a setting like this in your theme's configuration:
+# FOOTER_TEXT = 'Content licensed under CC BY-SA 4.0'
