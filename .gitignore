@@ -7,8 +7,10 @@ venv/
 # Pelican
 output/
 cache/
-content/
+content/nbimages/
 
 # Our generated markdown files in the root content folder
 # This prevents committing derived files. The Action will generate them.
 content/*.md
+
+.vscode

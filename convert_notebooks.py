@@ -12,7 +12,7 @@ import os
 # --- Configuration ---
 NOTEBOOK_DIR = Path('notebooks')
 OUTPUT_DIR = Path('content')
-IMAGE_DIR = OUTPUT_DIR / 'images'
+IMAGE_DIR = OUTPUT_DIR / 'nbimages'
 
 # --- Preprocessor for RELATIVE IMAGE PATHS in Markdown ---
 
@@ -57,7 +57,7 @@ class PelicanRelativePathPreprocessor(Preprocessor):
             print(f"   [OK] Copied relative image: {src_path.name} -> {dest_path}")
             
             # Rewrite the URL to the Pelican-friendly format
-            pelican_url = f"{{static}}/images/{slug}/{dest_filename}"
+            pelican_url = f"{{static}}/nbimages/{slug}/{dest_filename}"
             
             return f"![{alt_text}]({pelican_url})"
 

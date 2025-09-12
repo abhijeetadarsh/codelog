@@ -1,6 +1,6 @@
 AUTHOR = 'Abhijeet Adarsh'
-SITENAME = 'blog'
-SITEURL = ""
+SITENAME = 'CodeLog'
+SITEURL = "http://127.0.0.1:8000/"
 
 ARTICLE_PATHS = ['']
 PATH = "content"
@@ -16,7 +16,9 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-# THEME = 'themes/Flex'
+THEME = 'themes/notmyidea'
+# FAVICON = "/images/favicon.ico"
+
 DEFAULT_PAGINATION = 3
 
 # --- Footer Links ---
