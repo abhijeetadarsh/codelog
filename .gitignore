@@ -13,4 +13,8 @@ content/nbimages/
 # This prevents committing derived files. The Action will generate them.
 content/*.md
 
+# VSCode
 .vscode
+
+# SEO plugin files
+seo_report.html
