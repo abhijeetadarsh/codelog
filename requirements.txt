@@ -2,5 +2,7 @@ jupyter==1.1.1
 Markdown==3.9
 nbconvert==7.16.6
 nbformat==5.10.4
+pagefind==1.4.0
+pagefind_bin==1.4.0
 pelican==4.11.0
 pelican-seo==1.4.0

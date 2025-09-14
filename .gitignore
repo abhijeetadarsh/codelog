@@ -18,3 +18,6 @@ content/*.md
 
 # SEO plugin files
 seo_report.html
+
+# Log files
+*.log

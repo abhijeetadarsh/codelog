@@ -1,80 +1,57 @@
-PY?=
-PELICAN?=pelican
-PELICANOPTS=
+.PHONY: all convert content index listen clean
 
-BASEDIR=$(CURDIR)
-INPUTDIR=$(BASEDIR)/content
-OUTPUTDIR=$(BASEDIR)/output
-CONFFILE=$(BASEDIR)/pelicanconf.py
-PUBLISHCONF=$(BASEDIR)/publishconf.py
+# Define variables for commands
+VENV = venv/bin/activate
+PYTHON = python
+PAGEFIND = pagefind
+PELICAN = pelican
+PIP = pip
 
-GITHUB_PAGES_BRANCH=main
-GITHUB_PAGES_COMMIT_MESSAGE=Generate Pelican site
+INSTALL_CMD = source $(VENV) && $(PIP) install -r requirements.txt
+CONVERT_CMD = source $(VENV) && $(PYTHON) convert_notebooks.py
+PELICAN_CMD = source $(VENV) && $(PELICAN) content 
+PAGEFIND_CMD = source $(VENV) && $(PYTHON) build_search_index.py
+LISTEN_CMD = source $(VENV) && $(PELICAN) --listen -r
+CLEANUP_CMD = rm -rf output content/nbimages && rm -f content/*.md && rm -f *.log 
 
+# The default target, runs all steps
+all: help
 
-DEBUG ?= 0
-ifeq ($(DEBUG), 1)
-	PELICANOPTS += -D
-endif
-
-RELATIVE ?= 0
-ifeq ($(RELATIVE), 1)
-	PELICANOPTS += --relative-urls
-endif
-
-SERVER ?= "0.0.0.0"
-
-PORT ?= 0
-ifneq ($(PORT), 0)
-	PELICANOPTS += -p $(PORT)
-endif
-
-
+# Display this help message
 help:
-	@echo 'Makefile for a pelican Web site                                           '
-	@echo '                                                                          '
-	@echo 'Usage:                                                                    '
-	@echo '   make html                           (re)generate the web site          '
-	@echo '   make clean                          remove the generated files         '
-	@echo '   make regenerate                     regenerate files upon modification '
-	@echo '   make publish                        generate using production settings '
-	@echo '   make serve [PORT=8000]              serve site at http://localhost:8000'
-	@echo '   make serve-global [SERVER=0.0.0.0]  serve (as root) to $(SERVER):80    '
-	@echo '   make devserver [PORT=8000]          serve and regenerate together      '
-	@echo '   make devserver-global               regenerate and serve on 0.0.0.0    '
-	@echo '   make github                         upload the web site via gh-pages   '
-	@echo '                                                                          '
-	@echo 'Set the DEBUG variable to 1 to enable debugging, e.g. make DEBUG=1 html   '
-	@echo 'Set the RELATIVE variable to 1 to enable relative urls                    '
-	@echo '                                                                          '
+	@echo "Available commands:"
+	@echo "  make help       - Show this help message."
+	@echo "  make convert    - Convert notebooks to Markdown."
+	@echo "  make content    - Generate content using Pelican."
+	@echo "  make index      - Generate the search index using custom Pagefind script (articles only)."
+	@echo "  make build      - Run Convert notebooks then Pelican content generation and Pagefind indexing."
+	@echo "  make listen     - Start a local development server."
+	@echo "  make clean      - Clean up build artifacts."
 
-html:
-	"$(PELICAN)" "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
+# Convert notebooks to Markdown
+convert:
+	@echo "Converting notebooks to markdown..."
+	$(CONVERT_CMD)
 
+# Generate content using Pelican
+content:
+	@echo "Generating Pelican content..."
+	$(PELICAN_CMD)
+
+# Generate the search index using Pagefind
+index:
+	@echo "Generating Pagefind index..."
+	$(PAGEFIND_CMD)
+
+# Start the development server
+listen:
+	@echo "Starting Pelican development server..."
+	$(LISTEN_CMD)
+
+# Clean up build artifacts
 clean:
-	[ ! -d "$(OUTPUTDIR)" ] || rm -rf "$(OUTPUTDIR)"
+	@echo "Cleaning up build artifacts..."
+	$(CLEANUP_CMD)
 
-regenerate:
-	"$(PELICAN)" -r "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
-
-serve:
-	"$(PELICAN)" -l "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
-
-serve-global:
-	"$(PELICAN)" -l "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS) -b $(SERVER)
-
-devserver:
-	"$(PELICAN)" -lr "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
-
-devserver-global:
-	"$(PELICAN)" -lr "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS) -b 0.0.0.0
-
-publish:
-	"$(PELICAN)" "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(PUBLISHCONF)" $(PELICANOPTS)
-
-github: publish
-	ghp-import -m "$(GITHUB_PAGES_COMMIT_MESSAGE)" -b $(GITHUB_PAGES_BRANCH) "$(OUTPUTDIR)" --no-jekyll
-	git push origin $(GITHUB_PAGES_BRANCH)
-
-
-.PHONY: html help clean regenerate serve serve-global devserver devserver-global publish github
+# A special target that runs content generation and indexing
+build: convert content index
