@@ -4,7 +4,7 @@ name: Build and Deploy Pelican Blog
 on:
   push:
     branches:
-      - main  # Or 'master' if that's your default branch
+      - main 
 
 # 2. PERMISSIONS: Grant the job permissions to write to GitHub Pages
 permissions:
@@ -24,7 +24,7 @@ jobs:
       - name: Set up Python 🐍
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # Choose your Python version
+          python-version: '3.10'
           cache: 'pip'
 
       # 5. INSTALL DEPENDENCIES: Install Pelican and other libraries
@@ -40,14 +40,18 @@ jobs:
       - name: Build Pelican site 🏗️
         run: pelican content -s publishconf.py
 
-      # 8. UPLOAD ARTIFACT: Upload the generated 'output' folder
+      # 8. GENERATE SEARCH INDEX: Run Pagefind to create search index
+      - name: Generate search index 🔍
+        run: python build_search_index.py
+
+      # 9. UPLOAD ARTIFACT: Upload the generated 'output' folder
       #    This prepares it for deployment to GitHub Pages
       - name: Upload artifact ⬆️
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./output
 
-      # 9. DEPLOY: Deploy the uploaded artifact to GitHub Pages
+      # 10. DEPLOY: Deploy the uploaded artifact to GitHub Pages
       - name: Deploy to GitHub Pages 🚀
         id: deployment
         uses: actions/deploy-pages@v4
