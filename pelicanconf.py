@@ -1,13 +1,14 @@
 AUTHOR = 'Abhijeet Adarsh'
 SITENAME = 'CodeLog'
 SITESUBTITLE = 'by ' + AUTHOR
-SITEURL = "http://127.0.0.1:8000/"
+SITEURL = "http://127.0.0.1:8000"
 
 ARTICLE_PATHS = ['']
 PATH = "content"
 STATIC_PATHS = ['images']
 
 TIMEZONE = 'Asia/Kolkata'
+LOCALE = "C"
 DEFAULT_LANG = 'en'
 
 # Plugins

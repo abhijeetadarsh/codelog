@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block extra_head %}
+<meta name="robots" content="noindex, follow">
+{% endblock %}
 {% block content_title %}{% endblock %}
 {% block content %}
     {% if articles %}
