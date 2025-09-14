@@ -14,7 +14,7 @@
                                 <link href="{{ FEED_DOMAIN }}/{% if FEED_ALL_RSS_URL %}{{ FEED_ALL_RSS_URL }}{% else %}{{ FEED_ALL_RSS }}{% endif %}" type="application/rss+xml" rel="alternate" title="{{ SITENAME|striptags }} RSS Feed" />
                         {% endif %}
                         {% block extra_head %}{% endblock extra_head %}
-                        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+                        <link rel="icon" type="image/x-icon" href="{{ SITEURL }}/images/favicon.ico">
                 {% endblock head %}
         </head>
 
@@ -85,6 +85,21 @@
                 {% include 'disqus_script.html' %}
 
                 <!-- SCRIPTS -->
+                <script>
+                        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+                        let pagefind = null;
+                        async function initPagefind() {
+                                try {
+                                        console.log("Initializing Pagefind...");
+                                        pagefind = await import("{{ SITEURL }}/pagefind/pagefind.js");
+                                        await pagefind.init();
+                                        console.log("Pagefind initialized successfully");
+                                } catch (error) {
+                                        console.error("Failed to initialize Pagefind:", error);
+                                }
+                        }
+                </script>
                 <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/main.js"></script>
         </body>
 </html>

@@ -1,12 +1,3 @@
-console.log('main.js loaded');
-
-document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-// Simple inline search implementation
-console.log("=== INLINE SEARCH SCRIPT ===");
-
-let pagefind = null;
-
 // Create search UI
 function createSearchUI() {
     console.log("Creating search UI...");
@@ -121,18 +112,6 @@ function createSearchUI() {
     });
 
     console.log("Search UI setup complete");
-}
-
-// Initialize Pagefind
-async function initPagefind() {
-    try {
-        console.log("Initializing Pagefind...");
-        pagefind = await import("/pagefind/pagefind.js");
-        await pagefind.init();
-        console.log("Pagefind initialized successfully");
-    } catch (error) {
-        console.error("Failed to initialize Pagefind:", error);
-    }
 }
 
 // Initialize when DOM is ready
